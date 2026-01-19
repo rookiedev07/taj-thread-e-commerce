@@ -1,0 +1,136 @@
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { ShoppingBag, User, Search, Menu, X, Heart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { cn } from '@/lib/utils';
+
+const navLinks = [
+  { href: '/shop', label: 'Shop All' },
+  { href: '/shop/thobes', label: 'Thobes' },
+  { href: '/shop/abayas', label: 'Abayas' },
+  { href: '/shop/kurtas', label: 'Kurtas' },
+  { href: '/shop/hijabs', label: 'Hijabs' },
+  { href: '/shop/accessories', label: 'Accessories' },
+];
+
+export const Header: React.FC = () => {
+  const { itemCount, toggleCart } = useCart();
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+
+  return (
+    <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
+      {/* Top Banner */}
+      <div className="bg-primary text-primary-foreground text-center py-2 px-4 text-sm">
+        <span className="font-medium">Free Shipping on orders over $100</span>
+        <span className="mx-2">•</span>
+        <span>Ramadan Collection Now Available</span>
+      </div>
+
+      <div className="section-container">
+        <div className="flex items-center justify-between h-16 lg:h-20">
+          {/* Mobile Menu Button */}
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild className="lg:hidden">
+              <Button variant="ghost" size="icon" aria-label="Open menu">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-80 bg-card">
+              <div className="flex flex-col h-full">
+                <div className="flex items-center justify-between mb-8">
+                  <Link
+                    to="/"
+                    className="font-serif text-2xl font-bold text-primary"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Taj & Thread
+                  </Link>
+                </div>
+                <nav className="flex flex-col gap-4">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      className={cn(
+                        'text-lg py-2 transition-colors underline-animate',
+                        location.pathname === link.href
+                          ? 'text-primary font-semibold'
+                          : 'text-foreground hover:text-primary'
+                      )}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <span className="font-serif text-xl lg:text-2xl font-bold text-primary tracking-tight">
+              Taj & Thread
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className={cn(
+                  'text-sm font-medium transition-colors underline-animate py-1',
+                  location.pathname === link.href || 
+                  (link.href !== '/shop' && location.pathname.includes(link.href))
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-2 lg:gap-4">
+            <Button variant="ghost" size="icon" className="hidden md:flex" aria-label="Search">
+              <Search className="h-5 w-5" />
+            </Button>
+            
+            <Button variant="ghost" size="icon" className="hidden md:flex" aria-label="Wishlist">
+              <Heart className="h-5 w-5" />
+            </Button>
+
+            <Link to={isAuthenticated ? '/account' : '/auth'}>
+              <Button variant="ghost" size="icon" aria-label="Account">
+                <User className="h-5 w-5" />
+              </Button>
+            </Link>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative"
+              onClick={toggleCart}
+              aria-label="Shopping bag"
+            >
+              <ShoppingBag className="h-5 w-5" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
