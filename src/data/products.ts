@@ -1,0 +1,417 @@
+import { Product, Category, Review } from '@/types/product';
+
+// Import category images
+import categoryThobes from '@/assets/category-thobes.jpg';
+import categoryAbayas from '@/assets/category-abayas.jpg';
+import categoryKurtas from '@/assets/category-kurtas.jpg';
+import categoryHijabs from '@/assets/category-hijabs.jpg';
+import categoryAccessories from '@/assets/category-accessories.jpg';
+
+export const categories: Category[] = [
+  {
+    id: 'thobes',
+    name: 'Thobes',
+    description: 'Traditional elegance for the modern man',
+    image: categoryThobes,
+    productCount: 45,
+  },
+  {
+    id: 'abayas',
+    name: 'Abayas',
+    description: 'Graceful designs for every occasion',
+    image: categoryAbayas,
+    productCount: 62,
+  },
+  {
+    id: 'kurtas',
+    name: 'Kurtas',
+    description: 'Refined craftsmanship, timeless style',
+    image: categoryKurtas,
+    productCount: 38,
+  },
+  {
+    id: 'hijabs',
+    name: 'Hijabs',
+    description: 'Premium fabrics in stunning colors',
+    image: categoryHijabs,
+    productCount: 89,
+  },
+  {
+    id: 'accessories',
+    name: 'Accessories',
+    description: 'Complete your look with elegance',
+    image: categoryAccessories,
+    productCount: 56,
+  },
+];
+
+const standardSizes = [
+  { value: 'xs', label: 'XS', available: true },
+  { value: 's', label: 'S', available: true },
+  { value: 'm', label: 'M', available: true },
+  { value: 'l', label: 'L', available: true },
+  { value: 'xl', label: 'XL', available: true },
+  { value: '2xl', label: '2XL', available: false },
+];
+
+const thobeColors = [
+  { name: 'White', value: '#FFFFFF', available: true },
+  { name: 'Ivory', value: '#FFFFF0', available: true },
+  { name: 'Beige', value: '#F5F5DC', available: true },
+  { name: 'Navy', value: '#000080', available: true },
+  { name: 'Olive', value: '#556B2F', available: false },
+];
+
+const abayaColors = [
+  { name: 'Black', value: '#000000', available: true },
+  { name: 'Navy', value: '#000080', available: true },
+  { name: 'Burgundy', value: '#800020', available: true },
+  { name: 'Forest Green', value: '#228B22', available: true },
+];
+
+export const products: Product[] = [
+  // Thobes
+  {
+    id: 'thobe-1',
+    name: 'Classic Emirati Thobe',
+    slug: 'classic-emirati-thobe',
+    description: 'A timeless Emirati-style thobe crafted from premium cotton blend. Features traditional collar design with subtle embroidery along the neckline and cuffs.',
+    price: 149.99,
+    originalPrice: 189.99,
+    currency: 'USD',
+    category: 'thobes',
+    images: [categoryThobes, categoryThobes, categoryThobes],
+    sizes: standardSizes,
+    colors: thobeColors,
+    fabric: '100% Premium Cotton Blend',
+    careInstructions: ['Machine wash cold', 'Tumble dry low', 'Iron on medium heat'],
+    rating: 4.8,
+    reviewCount: 124,
+    inStock: true,
+    stockCount: 45,
+    tags: ['bestseller', 'classic', 'cotton'],
+    isBestSeller: true,
+    deliveryEstimate: '3-5 business days',
+  },
+  {
+    id: 'thobe-2',
+    name: 'Modern Moroccan Thobe',
+    slug: 'modern-moroccan-thobe',
+    description: 'Contemporary Moroccan-inspired thobe with intricate geometric embroidery. Made from lightweight linen blend perfect for warm weather.',
+    price: 179.99,
+    currency: 'USD',
+    category: 'thobes',
+    images: [categoryThobes, categoryThobes],
+    sizes: standardSizes,
+    colors: thobeColors,
+    fabric: 'Premium Linen Blend',
+    careInstructions: ['Dry clean recommended', 'Iron on low heat'],
+    rating: 4.6,
+    reviewCount: 89,
+    inStock: true,
+    stockCount: 32,
+    tags: ['new', 'linen', 'embroidered'],
+    isNew: true,
+    deliveryEstimate: '3-5 business days',
+  },
+  {
+    id: 'thobe-3',
+    name: 'Saudi Premium Thobe',
+    slug: 'saudi-premium-thobe',
+    description: 'Luxurious Saudi-style thobe with hidden button placket. Crafted from imported Egyptian cotton for unmatched comfort.',
+    price: 219.99,
+    originalPrice: 259.99,
+    currency: 'USD',
+    category: 'thobes',
+    images: [categoryThobes],
+    sizes: standardSizes,
+    colors: thobeColors,
+    fabric: 'Egyptian Cotton',
+    careInstructions: ['Dry clean only'],
+    rating: 4.9,
+    reviewCount: 67,
+    inStock: true,
+    stockCount: 18,
+    tags: ['premium', 'egyptian-cotton'],
+    deliveryEstimate: '3-5 business days',
+  },
+
+  // Abayas
+  {
+    id: 'abaya-1',
+    name: 'Flowing Noir Abaya',
+    slug: 'flowing-noir-abaya',
+    description: 'Elegant black abaya with flowing silhouette and delicate lace trim. Perfect for everyday wear or special occasions.',
+    price: 189.99,
+    currency: 'USD',
+    category: 'abayas',
+    images: [categoryAbayas, categoryAbayas],
+    sizes: standardSizes,
+    colors: abayaColors,
+    fabric: 'Premium Nida Fabric',
+    careInstructions: ['Hand wash cold', 'Line dry', 'Iron inside out'],
+    rating: 4.7,
+    reviewCount: 156,
+    inStock: true,
+    stockCount: 52,
+    tags: ['elegant', 'versatile'],
+    isBestSeller: true,
+    deliveryEstimate: '3-5 business days',
+  },
+  {
+    id: 'abaya-2',
+    name: 'Embroidered Garden Abaya',
+    slug: 'embroidered-garden-abaya',
+    description: 'Stunning abaya featuring hand-stitched floral embroidery. A statement piece that combines tradition with modern elegance.',
+    price: 249.99,
+    originalPrice: 299.99,
+    currency: 'USD',
+    category: 'abayas',
+    images: [categoryAbayas],
+    sizes: standardSizes,
+    colors: abayaColors,
+    fabric: 'Crepe Silk Blend',
+    careInstructions: ['Dry clean only'],
+    rating: 4.9,
+    reviewCount: 78,
+    inStock: true,
+    stockCount: 24,
+    tags: ['embroidered', 'luxury', 'statement'],
+    isNew: true,
+    deliveryEstimate: '3-5 business days',
+  },
+  {
+    id: 'abaya-3',
+    name: 'Minimal Everyday Abaya',
+    slug: 'minimal-everyday-abaya',
+    description: 'Simple yet sophisticated abaya for daily wear. Features hidden pockets and comfortable stretch fabric.',
+    price: 129.99,
+    currency: 'USD',
+    category: 'abayas',
+    images: [categoryAbayas],
+    sizes: standardSizes,
+    colors: abayaColors,
+    fabric: 'Stretch Crepe',
+    careInstructions: ['Machine wash gentle', 'Tumble dry low'],
+    rating: 4.5,
+    reviewCount: 203,
+    inStock: true,
+    stockCount: 78,
+    tags: ['everyday', 'comfortable'],
+    deliveryEstimate: '3-5 business days',
+  },
+
+  // Kurtas
+  {
+    id: 'kurta-1',
+    name: 'Royal Emerald Kurta',
+    slug: 'royal-emerald-kurta',
+    description: 'Regal emerald kurta with gold thread embroidery. Perfect for weddings and celebrations.',
+    price: 169.99,
+    currency: 'USD',
+    category: 'kurtas',
+    images: [categoryKurtas, categoryKurtas],
+    sizes: standardSizes,
+    colors: [
+      { name: 'Emerald', value: '#50C878', available: true },
+      { name: 'Royal Blue', value: '#4169E1', available: true },
+      { name: 'Maroon', value: '#800000', available: true },
+    ],
+    fabric: 'Silk Cotton Blend',
+    careInstructions: ['Dry clean only'],
+    rating: 4.8,
+    reviewCount: 92,
+    inStock: true,
+    stockCount: 35,
+    tags: ['wedding', 'embroidered', 'silk'],
+    isBestSeller: true,
+    deliveryEstimate: '3-5 business days',
+  },
+  {
+    id: 'kurta-2',
+    name: 'Cotton Comfort Kurta',
+    slug: 'cotton-comfort-kurta',
+    description: 'Breathable cotton kurta ideal for everyday wear. Features subtle pintuck details and mandarin collar.',
+    price: 89.99,
+    currency: 'USD',
+    category: 'kurtas',
+    images: [categoryKurtas],
+    sizes: standardSizes,
+    colors: [
+      { name: 'White', value: '#FFFFFF', available: true },
+      { name: 'Light Blue', value: '#ADD8E6', available: true },
+      { name: 'Sage', value: '#9DC183', available: true },
+    ],
+    fabric: '100% Cotton',
+    careInstructions: ['Machine wash cold', 'Tumble dry low'],
+    rating: 4.4,
+    reviewCount: 145,
+    inStock: true,
+    stockCount: 89,
+    tags: ['everyday', 'cotton', 'casual'],
+    isNew: true,
+    deliveryEstimate: '3-5 business days',
+  },
+
+  // Hijabs
+  {
+    id: 'hijab-1',
+    name: 'Silk Chiffon Hijab',
+    slug: 'silk-chiffon-hijab',
+    description: 'Luxuriously soft silk chiffon hijab. Lightweight with beautiful drape and subtle sheen.',
+    price: 49.99,
+    currency: 'USD',
+    category: 'hijabs',
+    images: [categoryHijabs, categoryHijabs],
+    sizes: [{ value: 'one-size', label: 'One Size', available: true }],
+    colors: [
+      { name: 'Blush', value: '#FFB6C1', available: true },
+      { name: 'Dusty Rose', value: '#DCAE96', available: true },
+      { name: 'Sage', value: '#9DC183', available: true },
+      { name: 'Navy', value: '#000080', available: true },
+      { name: 'Black', value: '#000000', available: true },
+    ],
+    fabric: 'Pure Silk Chiffon',
+    careInstructions: ['Hand wash cold', 'Lay flat to dry'],
+    rating: 4.9,
+    reviewCount: 312,
+    inStock: true,
+    stockCount: 156,
+    tags: ['silk', 'premium', 'bestseller'],
+    isBestSeller: true,
+    deliveryEstimate: '2-4 business days',
+  },
+  {
+    id: 'hijab-2',
+    name: 'Jersey Everyday Hijab',
+    slug: 'jersey-everyday-hijab',
+    description: 'Comfortable stretch jersey hijab perfect for active lifestyles. Stays in place all day.',
+    price: 29.99,
+    currency: 'USD',
+    category: 'hijabs',
+    images: [categoryHijabs],
+    sizes: [{ value: 'one-size', label: 'One Size', available: true }],
+    colors: [
+      { name: 'Black', value: '#000000', available: true },
+      { name: 'White', value: '#FFFFFF', available: true },
+      { name: 'Nude', value: '#E3BC9A', available: true },
+      { name: 'Mauve', value: '#E0B0FF', available: true },
+    ],
+    fabric: 'Premium Jersey',
+    careInstructions: ['Machine wash gentle', 'Tumble dry low'],
+    rating: 4.6,
+    reviewCount: 445,
+    inStock: true,
+    stockCount: 234,
+    tags: ['everyday', 'comfortable', 'jersey'],
+    deliveryEstimate: '2-4 business days',
+  },
+
+  // Accessories
+  {
+    id: 'acc-1',
+    name: 'Embroidered Kufi Cap',
+    slug: 'embroidered-kufi-cap',
+    description: 'Traditional kufi cap with intricate embroidery. Comfortable fit with breathable cotton lining.',
+    price: 34.99,
+    currency: 'USD',
+    category: 'accessories',
+    images: [categoryAccessories],
+    sizes: [
+      { value: 's', label: 'S (56cm)', available: true },
+      { value: 'm', label: 'M (58cm)', available: true },
+      { value: 'l', label: 'L (60cm)', available: true },
+    ],
+    colors: [
+      { name: 'White', value: '#FFFFFF', available: true },
+      { name: 'Black', value: '#000000', available: true },
+      { name: 'Emerald', value: '#50C878', available: true },
+    ],
+    fabric: 'Cotton with Embroidery',
+    careInstructions: ['Hand wash cold', 'Air dry'],
+    rating: 4.7,
+    reviewCount: 87,
+    inStock: true,
+    stockCount: 67,
+    tags: ['cap', 'embroidered'],
+    isNew: true,
+    deliveryEstimate: '2-4 business days',
+  },
+  {
+    id: 'acc-2',
+    name: 'Wooden Tasbih Beads',
+    slug: 'wooden-tasbih-beads',
+    description: 'Hand-crafted olive wood tasbih with 99 beads. Features elegant gold separator beads.',
+    price: 44.99,
+    currency: 'USD',
+    category: 'accessories',
+    images: [categoryAccessories],
+    sizes: [{ value: 'one-size', label: 'One Size', available: true }],
+    colors: [
+      { name: 'Natural', value: '#DEB887', available: true },
+      { name: 'Dark', value: '#654321', available: true },
+    ],
+    fabric: 'Olive Wood',
+    careInstructions: ['Wipe with dry cloth'],
+    rating: 4.8,
+    reviewCount: 156,
+    inStock: true,
+    stockCount: 89,
+    tags: ['tasbih', 'prayer', 'handcrafted'],
+    isBestSeller: true,
+    deliveryEstimate: '2-4 business days',
+  },
+];
+
+export const reviews: Review[] = [
+  {
+    id: 'review-1',
+    productId: 'thobe-1',
+    author: 'Ahmed K.',
+    rating: 5,
+    title: 'Exceptional Quality',
+    content: 'The fabric quality is outstanding. Fits perfectly and the embroidery details are beautiful. Will definitely order more.',
+    date: '2024-01-15',
+    verified: true,
+  },
+  {
+    id: 'review-2',
+    productId: 'thobe-1',
+    author: 'Omar M.',
+    rating: 5,
+    title: 'Perfect for Jumah',
+    content: 'Comfortable and elegant. I wear this every Friday and always get compliments. Great value for the price.',
+    date: '2024-01-10',
+    verified: true,
+  },
+  {
+    id: 'review-3',
+    productId: 'abaya-1',
+    author: 'Fatima S.',
+    rating: 4,
+    title: 'Beautiful Design',
+    content: 'Love the flowing design and lace details. Runs slightly large so consider sizing down.',
+    date: '2024-01-08',
+    verified: true,
+  },
+];
+
+export const getProductBySlug = (slug: string): Product | undefined => {
+  return products.find((p) => p.slug === slug);
+};
+
+export const getProductsByCategory = (category: string): Product[] => {
+  return products.filter((p) => p.category === category);
+};
+
+export const getFeaturedProducts = (): Product[] => {
+  return products.filter((p) => p.isBestSeller || p.isNew).slice(0, 8);
+};
+
+export const getNewArrivals = (): Product[] => {
+  return products.filter((p) => p.isNew);
+};
+
+export const getBestSellers = (): Product[] => {
+  return products.filter((p) => p.isBestSeller);
+};
