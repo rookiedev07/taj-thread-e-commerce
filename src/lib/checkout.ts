@@ -28,20 +28,36 @@ export interface CreatePaymentIntentPayload {
   };
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const createPaymentIntent = async (
   payload: CreatePaymentIntentPayload
 ): Promise<{ clientSecret: string }> => {
-  const response = await fetch("/api/create-payment-intent", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+  if (!API_URL) {
+    throw new Error(
+      "VITE_API_URL is missing. Please configure the Render backend URL in Vercel."
+    );
+  }
+
+  const response = await fetch(
+    `${API_URL}/api/create-payment-intent`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    }
+  );
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
-    throw new Error(error?.error || "Unable to start payment");
+
+    throw new Error(
+      error?.error ||
+        `Payment server returned ${response.status}.`
+    );
   }
 
   return response.json();
 };
-
