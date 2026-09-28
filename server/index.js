@@ -6,9 +6,9 @@ import Stripe from "stripe";
 
 dotenv.config();
 
-// --------------------------------------------------
-// Configuration
-// --------------------------------------------------
+// ==================================================
+// CONFIGURATION
+// ==================================================
 
 const app = express();
 const PORT = process.env.PORT || 4242;
@@ -16,65 +16,82 @@ const PORT = process.env.PORT || 4242;
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 const CLIENT_URL = process.env.CLIENT_URL || "";
 
-// --------------------------------------------------
-// Environment Validation
-// --------------------------------------------------
+// ==================================================
+// ENVIRONMENT VALIDATION
+// ==================================================
 
 if (!STRIPE_SECRET_KEY) {
-  console.error("❌ Missing STRIPE_SECRET_KEY environment variable.");
+  console.error("Missing STRIPE_SECRET_KEY environment variable.");
   process.exit(1);
 }
 
-// --------------------------------------------------
-// Stripe
-// --------------------------------------------------
+// ==================================================
+// STRIPE
+// ==================================================
 
 const stripe = new Stripe(STRIPE_SECRET_KEY);
 
-// --------------------------------------------------
-// CORS
-// --------------------------------------------------
+// ==================================================
+// CORS CONFIGURATION
+// ==================================================
 
-// Supports multiple frontend URLs:
-// CLIENT_URL=https://example.vercel.app,https://example.com
-
-const allowedOrigins = CLIENT_URL
+const configuredOrigins = CLIENT_URL
   .split(",")
   .map((url) => url.trim())
   .filter(Boolean);
 
-// Local development fallbacks
 const localOrigins = [
   "http://localhost:5173",
   "http://localhost:8080",
 ];
 
-const corsOrigins =
-  allowedOrigins.length > 0
-    ? allowedOrigins
-    : localOrigins;
+const isAllowedOrigin = (origin) => {
+  // Requests without an Origin header
+  // are allowed (Postman/server-to-server requests).
+  if (!origin) {
+    return true;
+  }
+
+  // Explicitly configured domains.
+  if (configuredOrigins.includes(origin)) {
+    return true;
+  }
+
+  // Local development.
+  if (localOrigins.includes(origin)) {
+    return true;
+  }
+
+  // Any HTTPS Vercel deployment.
+  if (
+    origin.startsWith("https://") &&
+    origin.endsWith(".vercel.app")
+  ) {
+    return true;
+  }
+
+  return false;
+};
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests without an Origin header
-      // such as server-to-server requests or Postman.
-      if (!origin) {
+      if (isAllowedOrigin(origin)) {
         return callback(null, true);
       }
 
-      if (corsOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      console.warn(`⚠️ Blocked CORS request from: ${origin}`);
+      console.warn("Blocked CORS request from:", origin);
 
       return callback(
         new Error("Origin not allowed by CORS")
       );
     },
 
-    methods: ["GET", "POST", "OPTIONS"],
+    methods: [
+      "GET",
+      "POST",
+      "OPTIONS",
+    ],
 
     allowedHeaders: [
       "Content-Type",
@@ -83,15 +100,15 @@ app.use(
   })
 );
 
-// --------------------------------------------------
-// Middleware
-// --------------------------------------------------
+// ==================================================
+// MIDDLEWARE
+// ==================================================
 
 app.use(express.json());
 
-// --------------------------------------------------
-// Utility Functions
-// --------------------------------------------------
+// ==================================================
+// ORDER CALCULATION
+// ==================================================
 
 const calculateOrderAmount = (items) => {
   if (!Array.isArray(items) || items.length === 0) {
@@ -105,8 +122,8 @@ const calculateOrderAmount = (items) => {
     if (
       !Number.isFinite(price) ||
       !Number.isFinite(quantity) ||
-      quantity <= 0 ||
-      price < 0
+      price < 0 ||
+      quantity <= 0
     ) {
       return total;
     }
@@ -122,25 +139,24 @@ const calculateOrderAmount = (items) => {
 
   const total = subtotal + tax + shipping;
 
-  // Stripe expects the amount in the smallest
-  // currency unit (cents for USD).
+  // Stripe expects USD amounts in cents.
   return Math.round(total * 100);
 };
 
-// --------------------------------------------------
-// Health Check
-// --------------------------------------------------
+// ==================================================
+// HEALTH CHECK
+// ==================================================
 
 app.get("/api/health", (_req, res) => {
-  return res.status(200).json({
+  res.status(200).json({
     status: "ok",
     message: "Stripe backend is running.",
   });
 });
 
-// --------------------------------------------------
-// Create Payment Intent
-// --------------------------------------------------
+// ==================================================
+// CREATE PAYMENT INTENT
+// ==================================================
 
 app.post("/api/create-payment-intent", async (req, res) => {
   try {
@@ -151,9 +167,9 @@ app.post("/api/create-payment-intent", async (req, res) => {
       totals,
     } = req.body || {};
 
-    // ----------------------------------------------
-    // Validate Cart
-    // ----------------------------------------------
+    // ------------------------------------------------
+    // Validate cart
+    // ------------------------------------------------
 
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({
@@ -161,9 +177,9 @@ app.post("/api/create-payment-intent", async (req, res) => {
       });
     }
 
-    // ----------------------------------------------
-    // Calculate Order Amount
-    // ----------------------------------------------
+    // ------------------------------------------------
+    // Calculate order amount
+    // ------------------------------------------------
 
     const amount = calculateOrderAmount(items);
 
@@ -173,36 +189,44 @@ app.post("/api/create-payment-intent", async (req, res) => {
       });
     }
 
-    // ----------------------------------------------
-    // Customer Information
-    // ----------------------------------------------
+    // ------------------------------------------------
+    // Customer name
+    // ------------------------------------------------
 
-    const customerName =
-      customer?.firstName && customer?.lastName
-        ? `${customer.firstName} ${customer.lastName}`
-        : undefined;
+    let customerName;
 
-    // ----------------------------------------------
+    if (
+      customer?.firstName &&
+      customer?.lastName
+    ) {
+      customerName =
+        customer.firstName +
+        " " +
+        customer.lastName;
+    }
+
+    // ------------------------------------------------
     // Create Stripe Payment Intent
-    // ----------------------------------------------
+    // ------------------------------------------------
 
     const paymentIntent =
       await stripe.paymentIntents.create({
-        amount,
+        amount: amount,
         currency: "usd",
 
         automatic_payment_methods: {
           enabled: true,
         },
 
-        receipt_email: customer?.email,
+        receipt_email:
+          customer?.email || undefined,
 
-        // ------------------------------------------
-        // Stripe Metadata
-        // ------------------------------------------
+        // --------------------------------------------
+        // Metadata
+        // --------------------------------------------
 
         metadata: {
-          customer_name: customerName,
+          customer_name: customerName || "",
 
           shipping_city:
             shippingAddress?.city || "",
@@ -211,22 +235,28 @@ app.post("/api/create-payment-intent", async (req, res) => {
             shippingAddress?.country || "",
 
           subtotal:
-            totals?.subtotal?.toString() || "",
+            totals?.subtotal !== undefined
+              ? String(totals.subtotal)
+              : "",
 
           tax:
-            totals?.tax?.toString() || "",
+            totals?.tax !== undefined
+              ? String(totals.tax)
+              : "",
 
           shipping:
-            totals?.shipping?.toString() || "",
+            totals?.shipping !== undefined
+              ? String(totals.shipping)
+              : "",
         },
 
-        // ------------------------------------------
-        // Shipping Information
-        // ------------------------------------------
+        // --------------------------------------------
+        // Shipping
+        // --------------------------------------------
 
         shipping: shippingAddress
           ? {
-              name: customerName,
+              name: customerName || "Customer",
 
               phone:
                 customer?.phone || undefined,
@@ -255,19 +285,25 @@ app.post("/api/create-payment-intent", async (req, res) => {
           : undefined,
       });
 
-    // ----------------------------------------------
-    // Response
-    // ----------------------------------------------
+    // ------------------------------------------------
+    // Send client secret
+    // ------------------------------------------------
 
     return res.status(200).json({
-      clientSecret: paymentIntent.client_secret,
+      clientSecret:
+        paymentIntent.client_secret,
     });
 
   } catch (error) {
-    console.error("❌ Stripe error:", error);
+    console.error(
+      "Stripe payment error:",
+      error
+    );
 
     return res.status(500).json({
-      error: "Failed to create payment intent.",
+      error:
+        "Failed to create payment intent.",
+
       details:
         error instanceof Error
           ? error.message
@@ -276,43 +312,77 @@ app.post("/api/create-payment-intent", async (req, res) => {
   }
 });
 
-// --------------------------------------------------
-// 404 Handler
-// --------------------------------------------------
+// ==================================================
+// 404 HANDLER
+// ==================================================
 
 app.use((req, res) => {
-  return res.status(404).json({
+  res.status(404).json({
     error: "Route not found.",
     path: req.originalUrl,
   });
 });
 
-// --------------------------------------------------
-// Global Error Handler
-// --------------------------------------------------
+// ==================================================
+// GLOBAL ERROR HANDLER
+// ==================================================
 
-app.use((error, _req, res, _next) => {
-  console.error("❌ Server error:", error);
+app.use(
+  (error, _req, res, _next) => {
+    console.error(
+      "Server error:",
+      error
+    );
 
-  return res.status(500).json({
-    error: "Internal server error.",
-  });
-});
+    res.status(500).json({
+      error: "Internal server error.",
+    });
+  }
+);
 
-// --------------------------------------------------
-// Start Server
-// --------------------------------------------------
+// ==================================================
+// START SERVER
+// ==================================================
 
 app.listen(PORT, () => {
-  console.log("========================================");
-  console.log("🚀 Stripe backend started");
-  console.log(`📡 Port: ${PORT}`);
-  console.log(`🌐 Allowed origins:`);
+  console.log(
+    "========================================"
+  );
 
-  corsOrigins.forEach((origin) => {
-    console.log(`   - ${origin}`);
-  });
+  console.log(
+    "Stripe backend started successfully."
+  );
 
-  console.log("========================================");
+  console.log(
+    "Port:",
+    PORT
+  );
+
+  console.log(
+    "Configured frontend origins:"
+  );
+
+  if (configuredOrigins.length === 0) {
+    console.log(
+      "  None configured."
+    );
+  } else {
+    configuredOrigins.forEach(
+      (origin) => {
+        console.log(
+          "  -",
+          origin
+        );
+      }
+    );
+  }
+
+  console.log(
+    "All HTTPS *.vercel.app origins: ALLOWED"
+  );
+
+  console.log(
+    "========================================"
+  );
 });
 ```
