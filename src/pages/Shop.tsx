@@ -25,8 +25,8 @@ const sortOptions: { value: SortOption; label: string }[] = [
 ];
 
 const sizeOptions = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
-const colorOptions = ['Black', 'White', 'Navy', 'Emerald', 'Beige', 'Burgundy'];
-const fabricOptions = ['Cotton', 'Linen', 'Silk', 'Crepe', 'Jersey'];
+const colorOptions = ['Black', 'White', 'Navy', 'Camel', 'Olive', 'Burgundy', 'Cobalt Blue', 'Sage'];
+const fabricOptions = ['Cotton', 'Linen', 'Silk', 'Leather', 'Denim', 'Wool'];
 
 const Shop = () => {
   const { category } = useParams<{ category?: string }>();
@@ -36,7 +36,7 @@ const Shop = () => {
   );
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 300]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
   const [gridCols, setGridCols] = useState<2 | 4>(4);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -97,13 +97,13 @@ const Shop = () => {
     selectedCategories.length +
     selectedSizes.length +
     selectedColors.length +
-    (priceRange[0] > 0 || priceRange[1] < 300 ? 1 : 0);
+    (priceRange[0] > 0 || priceRange[1] < 500 ? 1 : 0);
 
   const clearAllFilters = () => {
     setSelectedCategories([]);
     setSelectedSizes([]);
     setSelectedColors([]);
-    setPriceRange([0, 300]);
+    setPriceRange([0, 500]);
   };
 
   const toggleCategory = (cat: ProductCategory) => {
@@ -160,13 +160,13 @@ const Shop = () => {
         <Slider
           value={priceRange}
           onValueChange={(value) => setPriceRange(value as [number, number])}
-          max={300}
+          max={500}
           step={10}
           className="mb-4"
         />
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <span>${priceRange[0]}</span>
-          <span>${priceRange[1]}</span>
+          <span>${priceRange[1]}{priceRange[1] === 500 ? '+' : ''}</span>
         </div>
       </div>
 
@@ -388,13 +388,13 @@ const Shop = () => {
                     <X className="h-3 w-3 ml-1" />
                   </Badge>
                 ))}
-                {(priceRange[0] > 0 || priceRange[1] < 300) && (
+                {(priceRange[0] > 0 || priceRange[1] < 500) && (
                   <Badge
                     variant="secondary"
                     className="cursor-pointer"
-                    onClick={() => setPriceRange([0, 300])}
+                    onClick={() => setPriceRange([0, 500])}
                   >
-                    ${priceRange[0]} - ${priceRange[1]}
+                    ${priceRange[0]} - ${priceRange[1]}{priceRange[1] === 500 ? '+' : ''}
                     <X className="h-3 w-3 ml-1" />
                   </Badge>
                 )}

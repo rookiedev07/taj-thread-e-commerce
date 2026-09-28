@@ -22,11 +22,12 @@ export interface Product {
   deliveryEstimate: string;
 }
 
-export type ProductCategory = 
-  | 'thobes' 
-  | 'abayas' 
-  | 'kurtas' 
-  | 'hijabs' 
+export type ProductCategory =
+  | 'womens'
+  | 'mens'
+  | 'streetwear'
+  | 'outerwear'
+  | 'footwear'
   | 'accessories';
 
 export interface Size {
@@ -76,11 +77,11 @@ export interface FilterState {
   sortBy: SortOption;
 }
 
-export type SortOption = 
-  | 'newest' 
-  | 'price-low' 
-  | 'price-high' 
-  | 'popularity' 
+export type SortOption =
+  | 'newest'
+  | 'price-low'
+  | 'price-high'
+  | 'popularity'
   | 'rating';
 
 export interface User {
@@ -121,12 +122,12 @@ export interface Order {
   estimatedDelivery: string;
 }
 
-export type OrderStatus = 
-  | 'pending' 
-  | 'confirmed' 
-  | 'processing' 
-  | 'shipped' 
-  | 'delivered' 
+export type OrderStatus =
+  | 'pending'
+  | 'confirmed'
+  | 'processing'
+  | 'shipped'
+  | 'delivered'
   | 'cancelled';
 
 export interface CheckoutState {

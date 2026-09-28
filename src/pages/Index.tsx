@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles, Star, Truck, RefreshCw, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import { ProductCard } from '@/components/product/ProductCard';
 import { CategoryTile } from '@/components/product/CategoryTile';
-import { TrustBadges } from '@/components/common/TrustBadges';
 import { categories, getFeaturedProducts, getNewArrivals, getBestSellers } from '@/data/products';
 import heroBanner from '@/assets/hero-banner.jpg';
 
@@ -23,70 +22,101 @@ const Index = () => {
 
       <main>
         {/* Hero Section */}
-        <section className="relative h-[70vh] lg:h-[85vh] overflow-hidden">
+        <section className="relative h-[80vh] lg:h-[90vh] overflow-hidden">
           <div className="absolute inset-0">
             <img
               src={heroBanner}
-              alt="Taj & Thread Collection"
-              className="w-full h-full object-cover"
+              alt="Stitch & Stone — Modern Fashion"
+              className="w-full h-full object-cover object-top"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-foreground/70 via-foreground/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/40 to-foreground/10" />
           </div>
 
           <div className="relative section-container h-full flex items-center">
-            <div className="max-w-xl slide-up">
-              <span className="inline-block text-accent font-medium mb-4 tracking-wide">
-                New Ramadan Collection 2024
-              </span>
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
-                Elegance Rooted in Tradition
+            <div className="max-w-2xl slide-up">
+              <div className="inline-flex items-center gap-2 bg-background/20 backdrop-blur-sm border border-background/30 rounded-full px-4 py-1.5 mb-6">
+                <Sparkles className="h-3.5 w-3.5 text-background" />
+                <span className="text-background text-xs font-medium tracking-widest uppercase">
+                  New Season Collection
+                </span>
+              </div>
+              <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-background mb-6 leading-tight">
+                Dress for
+                <br />
+                <span className="italic font-normal">every</span> moment
               </h1>
-              <p className="text-primary-foreground/90 text-lg mb-8 max-w-md">
-                Discover premium Muslim fashion that celebrates heritage while embracing modern sophistication.
+              <p className="text-background/80 text-lg mb-8 max-w-md leading-relaxed">
+                From minimalist essentials to bold statements — explore hundreds of styles across every category.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="btn-hero" asChild>
+                <Button
+                  className="bg-background text-foreground hover:bg-background/90 px-8 py-4 text-base font-medium shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                  asChild
+                >
                   <Link to="/shop">
-                    Shop Collection
+                    Shop All Styles
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
-                <Button className="btn-outline-elegant text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-foreground" asChild>
-                  <Link to="/shop/abayas">Shop Abayas</Link>
+                <Button
+                  className="border-2 border-background text-background bg-transparent hover:bg-background hover:text-foreground px-8 py-4 text-base transition-all duration-300"
+                  asChild
+                >
+                  <Link to="/shop/womens">Shop Women's</Link>
                 </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Hero Stats */}
+          <div className="absolute bottom-0 left-0 right-0 bg-foreground/50 backdrop-blur-sm border-t border-background/10">
+            <div className="section-container py-4">
+              <div className="flex justify-center gap-12 md:gap-24 text-background">
+                {[
+                  { value: '500+', label: 'Products' },
+                  { value: '6', label: 'Categories' },
+                  { value: '4.8★', label: 'Avg. Rating' },
+                  { value: '10K+', label: 'Happy Customers' },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center hidden sm:block">
+                    <div className="text-xl font-bold font-serif">{stat.value}</div>
+                    <div className="text-xs text-background/60 uppercase tracking-wider">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
         {/* Categories Section */}
-        <section className="py-16 lg:py-24 section-container">
-          <div className="text-center mb-12">
-            <h2 className="font-serif text-3xl lg:text-4xl font-semibold mb-4">
+        <section className="py-20 lg:py-28 section-container">
+          <div className="text-center mb-14">
+            <span className="text-muted-foreground text-xs uppercase tracking-widest font-medium block mb-3">
+              Browse
+            </span>
+            <h2 className="font-serif text-4xl lg:text-5xl font-semibold">
               Shop by Category
             </h2>
-            <div className="gold-accent mx-auto" />
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
-            {categories.map((category, index) => (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">
+            {categories.map((category) => (
               <CategoryTile
                 key={category.id}
                 category={category}
-                size={index < 2 ? 'lg' : 'md'}
-                className={index < 2 ? 'lg:col-span-1' : ''}
+                size="md"
               />
             ))}
           </div>
         </section>
 
         {/* New Arrivals */}
-        <section className="py-16 lg:py-24 bg-secondary/30">
+        <section className="py-20 lg:py-28 bg-secondary/30">
           <div className="section-container">
             <div className="flex items-end justify-between mb-12">
               <div>
-                <span className="text-accent font-medium text-sm uppercase tracking-wider mb-2 block">
-                  Fresh Finds
+                <span className="text-muted-foreground text-xs uppercase tracking-widest font-medium block mb-3">
+                  Just Dropped
                 </span>
                 <h2 className="font-serif text-3xl lg:text-4xl font-semibold">
                   New Arrivals
@@ -94,7 +124,7 @@ const Index = () => {
               </div>
               <Link
                 to="/shop?filter=new"
-                className="hidden sm:flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors"
+                className="hidden sm:flex items-center gap-2 text-foreground font-medium hover:text-muted-foreground transition-colors text-sm"
               >
                 View All
                 <ArrowRight className="h-4 w-4" />
@@ -115,44 +145,51 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Featured Banner */}
-        <section className="py-16 lg:py-24 section-container">
-          <div className="bg-primary rounded-2xl overflow-hidden bg-pattern-islamic">
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
-              <div className="p-8 lg:p-12">
-                <span className="text-accent font-medium text-sm uppercase tracking-wider mb-4 block">
-                  Limited Edition
-                </span>
-                <h2 className="font-serif text-3xl lg:text-4xl font-bold text-primary-foreground mb-4">
-                  Ramadan Exclusive Collection
-                </h2>
-                <p className="text-primary-foreground/80 mb-6">
-                  Celebrate the holy month with our specially curated collection featuring intricate embroidery and luxurious fabrics.
-                </p>
-                <Button className="btn-gold" asChild>
-                  <Link to="/shop?collection=ramadan">
-                    Explore Collection
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
+        {/* Split Promo Banner */}
+        <section className="py-20 lg:py-28 section-container">
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Women's Promo */}
+            <Link to="/shop/womens" className="group relative overflow-hidden rounded-2xl aspect-[4/3] lg:aspect-[3/2]">
+              <img
+                src={categories.find(c => c.id === 'womens')?.image}
+                alt="Women's Collection"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-8">
+                <span className="text-background/70 text-xs uppercase tracking-widest block mb-2">Explore</span>
+                <h3 className="font-serif text-3xl font-semibold text-background mb-3">Women's</h3>
+                <div className="flex items-center gap-2 text-background font-medium text-sm group-hover:gap-4 transition-all">
+                  Shop Now <ArrowRight className="h-4 w-4" />
+                </div>
               </div>
-              <div className="aspect-square lg:aspect-auto lg:h-96">
-                <img
-                  src={heroBanner}
-                  alt="Ramadan Collection"
-                  className="w-full h-full object-cover"
-                />
+            </Link>
+
+            {/* Men's Promo */}
+            <Link to="/shop/mens" className="group relative overflow-hidden rounded-2xl aspect-[4/3] lg:aspect-[3/2]">
+              <img
+                src={categories.find(c => c.id === 'mens')?.image}
+                alt="Men's Collection"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-8">
+                <span className="text-background/70 text-xs uppercase tracking-widest block mb-2">Explore</span>
+                <h3 className="font-serif text-3xl font-semibold text-background mb-3">Men's</h3>
+                <div className="flex items-center gap-2 text-background font-medium text-sm group-hover:gap-4 transition-all">
+                  Shop Now <ArrowRight className="h-4 w-4" />
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         </section>
 
         {/* Best Sellers */}
-        <section className="py-16 lg:py-24">
+        <section className="py-20 lg:py-28">
           <div className="section-container">
             <div className="flex items-end justify-between mb-12">
               <div>
-                <span className="text-accent font-medium text-sm uppercase tracking-wider mb-2 block">
+                <span className="text-muted-foreground text-xs uppercase tracking-widest font-medium block mb-3">
                   Customer Favorites
                 </span>
                 <h2 className="font-serif text-3xl lg:text-4xl font-semibold">
@@ -161,7 +198,7 @@ const Index = () => {
               </div>
               <Link
                 to="/shop?filter=bestsellers"
-                className="hidden sm:flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors"
+                className="hidden sm:flex items-center gap-2 text-foreground font-medium hover:text-muted-foreground transition-colors text-sm"
               >
                 View All
                 <ArrowRight className="h-4 w-4" />
@@ -182,36 +219,103 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Trust Badges */}
-        <section className="py-16 lg:py-20 bg-secondary/50">
+        {/* Streetwear & Outerwear Spotlight */}
+        <section className="py-20 lg:py-28 bg-foreground text-background">
           <div className="section-container">
-            <TrustBadges />
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <span className="text-background/50 text-xs uppercase tracking-widest font-medium block mb-4">
+                  Trending Now
+                </span>
+                <h2 className="font-serif text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                  Street-ready.
+                  <br />
+                  <span className="text-background/50 italic font-normal">Weather-proof.</span>
+                </h2>
+                <p className="text-background/60 text-base mb-8 leading-relaxed">
+                  Our streetwear and outerwear collections are built for real life. 
+                  From heavyweight hoodies to premium wool coats — we've got every layer covered.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button className="bg-background text-foreground hover:bg-background/90 font-medium" asChild>
+                    <Link to="/shop/streetwear">
+                      Shop Streetwear
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button variant="outline" className="border-background/30 text-background hover:bg-background/10" asChild>
+                    <Link to="/shop/outerwear">Shop Outerwear</Link>
+                  </Button>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="aspect-[3/4] rounded-xl overflow-hidden">
+                  <img
+                    src={categories.find(c => c.id === 'streetwear')?.image}
+                    alt="Streetwear"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="aspect-[3/4] rounded-xl overflow-hidden mt-8">
+                  <img
+                    src={categories.find(c => c.id === 'outerwear')?.image}
+                    alt="Outerwear"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Instagram Feed / Social Proof */}
-        <section className="py-16 lg:py-24 section-container">
+        {/* Trust Badges */}
+        <section className="py-16 lg:py-20 bg-secondary/30">
+          <div className="section-container">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { icon: Truck, title: 'Free Shipping', desc: 'On all orders over $100' },
+                { icon: RefreshCw, title: 'Easy Returns', desc: '30-day hassle-free returns' },
+                { icon: Shield, title: 'Secure Payments', desc: 'SSL encrypted checkout' },
+                { icon: Star, title: 'Top Rated', desc: '4.8★ from 10,000+ reviews' },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} className="flex items-center gap-4 p-4">
+                  <div className="h-10 w-10 rounded-full bg-foreground/10 flex items-center justify-center shrink-0">
+                    <Icon className="h-5 w-5 text-foreground" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-sm">{title}</div>
+                    <div className="text-muted-foreground text-xs">{desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Social Feed Style Grid */}
+        <section className="py-20 lg:py-28 section-container">
           <div className="text-center mb-12">
-            <h2 className="font-serif text-3xl lg:text-4xl font-semibold mb-4">
-              #TajAndThread
+            <h2 className="font-serif text-3xl lg:text-4xl font-semibold mb-3">
+              #StitchAndStone
             </h2>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              Join our community and share your style. Tag us for a chance to be featured.
+            <p className="text-muted-foreground text-sm max-w-md mx-auto">
+              Tag us in your looks for a chance to be featured. Style is personal — show us yours.
             </p>
           </div>
 
-          <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
             {featuredProducts.slice(0, 6).map((product, index) => (
-              <div
+              <Link
                 key={product.id}
+                to={`/product/${product.slug}`}
                 className="aspect-square overflow-hidden rounded-lg"
               >
                 <img
                   src={product.images[0]}
-                  alt={`Community post ${index + 1}`}
+                  alt={`Style ${index + 1}`}
                   className="w-full h-full object-cover hover:scale-110 transition-transform duration-500 cursor-pointer"
                 />
-              </div>
+              </Link>
             ))}
           </div>
         </section>

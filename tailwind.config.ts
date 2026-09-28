@@ -61,21 +61,9 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Extended Brand Colors
-        emerald: {
-          light: "hsl(var(--emerald-light))",
-          DEFAULT: "hsl(var(--primary))",
-          dark: "hsl(var(--emerald-dark))",
-        },
-        ivory: "hsl(var(--ivory))",
-        sand: "hsl(var(--sand))",
-        gold: {
-          light: "hsl(var(--gold-light))",
-          DEFAULT: "hsl(var(--gold))",
-        },
       },
       fontFamily: {
-        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        serif: ['Playfair Display', 'Georgia', 'serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
@@ -87,7 +75,7 @@ export default {
         'soft': 'var(--shadow-soft)',
         'card': 'var(--shadow-card)',
         'elevated': 'var(--shadow-elevated)',
-        'gold': 'var(--shadow-gold)',
+        'accent': 'var(--shadow-accent)',
       },
       keyframes: {
         "accordion-down": {

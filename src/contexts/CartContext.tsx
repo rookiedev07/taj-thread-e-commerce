@@ -117,7 +117,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Load cart from localStorage on mount
   useEffect(() => {
-    const savedCart = localStorage.getItem('taj-thread-cart');
+    const savedCart = localStorage.getItem('stitch-stone-cart');
     if (savedCart) {
       try {
         const parsedCart = JSON.parse(savedCart);
@@ -130,7 +130,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Save cart to localStorage on changes
   useEffect(() => {
-    localStorage.setItem('taj-thread-cart', JSON.stringify(state.items));
+    localStorage.setItem('stitch-stone-cart', JSON.stringify(state.items));
   }, [state.items]);
 
   const addItem = (product: Product, size: string, color: string, quantity = 1) => {

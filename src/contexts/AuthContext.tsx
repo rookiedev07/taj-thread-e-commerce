@@ -31,22 +31,22 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 // Mock user for demo purposes
 const mockUser: User = {
   id: 'user-1',
-  email: 'demo@tajandthread.com',
-  firstName: 'Ahmad',
-  lastName: 'Rahman',
+  email: 'demo@StitchAndStone.com',
+  firstName: 'Alex',
+  lastName: 'Johnson',
   phone: '+1 (555) 123-4567',
 };
 
 const mockAddresses: Address[] = [
   {
     id: 'addr-1',
-    firstName: 'Ahmad',
-    lastName: 'Rahman',
-    street: '123 Islamic Center Drive',
-    apartment: 'Apt 4B',
-    city: 'Detroit',
-    state: 'MI',
-    postalCode: '48201',
+    firstName: 'Alex',
+    lastName: 'Johnson',
+    street: '456 Fashion District Blvd',
+    apartment: 'Suite 12',
+    city: 'New York',
+    state: 'NY',
+    postalCode: '10001',
     country: 'United States',
     phone: '+1 (555) 123-4567',
     isDefault: true,
@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Check for existing session on mount
   useEffect(() => {
-    const savedUser = localStorage.getItem('taj-thread-user');
+    const savedUser = localStorage.getItem('stitch-stone-user');
     if (savedUser) {
       try {
         const user = JSON.parse(savedUser);
@@ -88,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Demo login - accept any email/password for now
     if (email && password) {
       const user = { ...mockUser, email };
-      localStorage.setItem('taj-thread-user', JSON.stringify(user));
+      localStorage.setItem('stitch-stone-user', JSON.stringify(user));
       setState({
         user,
         isAuthenticated: true,
@@ -112,7 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       lastName: data.lastName,
     };
 
-    localStorage.setItem('taj-thread-user', JSON.stringify(user));
+    localStorage.setItem('stitch-stone-user', JSON.stringify(user));
     setState({
       user,
       isAuthenticated: true,
@@ -124,7 +124,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
-    localStorage.removeItem('taj-thread-user');
+    localStorage.removeItem('stitch-stone-user');
     setState({
       user: null,
       isAuthenticated: false,
@@ -137,7 +137,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!state.user) return;
     
     const updatedUser = { ...state.user, ...data };
-    localStorage.setItem('taj-thread-user', JSON.stringify(updatedUser));
+    localStorage.setItem('stitch-stone-user', JSON.stringify(updatedUser));
     setState((prev) => ({ ...prev, user: updatedUser }));
   };
 

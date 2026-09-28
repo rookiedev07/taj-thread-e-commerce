@@ -22,9 +22,9 @@ export const CategoryTile: React.FC<CategoryTileProps> = ({
     >
       <div
         className={cn(
-          'relative overflow-hidden',
+          'relative overflow-hidden rounded-xl',
           size === 'sm' && 'aspect-square',
-          size === 'md' && 'aspect-[4/5]',
+          size === 'md' && 'aspect-[3/4]',
           size === 'lg' && 'aspect-[3/4]'
         )}
       >
@@ -36,22 +36,16 @@ export const CategoryTile: React.FC<CategoryTileProps> = ({
         />
 
         {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/20 to-transparent" />
 
         {/* Content */}
-        <div className="absolute inset-0 p-6 flex flex-col justify-end">
-          <span className="text-accent text-sm font-medium mb-1">
-            {category.productCount} Products
-          </span>
-          <h3 className="font-serif text-2xl lg:text-3xl font-semibold text-primary-foreground mb-2">
+        <div className="absolute inset-0 p-4 lg:p-5 flex flex-col justify-end">
+          <h3 className="font-serif text-lg lg:text-xl font-semibold text-background mb-1 leading-tight">
             {category.name}
           </h3>
-          <p className="text-primary-foreground/80 text-sm mb-4 line-clamp-2">
-            {category.description}
-          </p>
-          <div className="flex items-center gap-2 text-primary-foreground font-medium group-hover:text-accent transition-colors">
+          <div className="flex items-center gap-1.5 text-background/80 text-xs font-medium group-hover:text-background transition-colors">
             <span>Explore</span>
-            <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
           </div>
         </div>
       </div>

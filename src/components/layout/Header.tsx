@@ -8,11 +8,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
-  { href: '/shop', label: 'Shop All' },
-  { href: '/shop/thobes', label: 'Thobes' },
-  { href: '/shop/abayas', label: 'Abayas' },
-  { href: '/shop/kurtas', label: 'Kurtas' },
-  { href: '/shop/hijabs', label: 'Hijabs' },
+  { href: '/shop', label: 'All' },
+  { href: '/shop/womens', label: "Women's" },
+  { href: '/shop/mens', label: "Men's" },
+  { href: '/shop/streetwear', label: 'Streetwear' },
+  { href: '/shop/outerwear', label: 'Outerwear' },
+  { href: '/shop/footwear', label: 'Footwear' },
   { href: '/shop/accessories', label: 'Accessories' },
 ];
 
@@ -25,14 +26,12 @@ export const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
       {/* Top Banner */}
-      <div className="bg-primary text-primary-foreground text-center py-2 px-4 text-sm">
-        <span className="font-medium">Free Shipping on orders over $100</span>
-        <span className="mx-2">•</span>
-        <span>Ramadan Collection Now Available</span>
+      <div className="bg-foreground text-background text-center py-2 px-4 text-xs tracking-widest font-medium uppercase">
+        <span>Free shipping on orders over $100 · New arrivals every week</span>
       </div>
 
       <div className="section-container">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-16 lg:h-18">
           {/* Mobile Menu Button */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild className="lg:hidden">
@@ -45,22 +44,22 @@ export const Header: React.FC = () => {
                 <div className="flex items-center justify-between mb-8">
                   <Link
                     to="/"
-                    className="font-serif text-2xl font-bold text-primary"
+                    className="font-serif text-2xl font-bold text-foreground tracking-tight"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Taj & Thread
+                    Stitch & Stone
                   </Link>
                 </div>
-                <nav className="flex flex-col gap-4">
+                <nav className="flex flex-col gap-1">
                   {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       to={link.href}
                       className={cn(
-                        'text-lg py-2 transition-colors underline-animate',
+                        'text-base py-3 px-3 rounded-lg transition-colors',
                         location.pathname === link.href
-                          ? 'text-primary font-semibold'
-                          : 'text-foreground hover:text-primary'
+                          ? 'bg-primary text-primary-foreground font-semibold'
+                          : 'text-foreground hover:bg-secondary'
                       )}
                       onClick={() => setMobileMenuOpen(false)}
                     >
@@ -68,28 +67,38 @@ export const Header: React.FC = () => {
                     </Link>
                   ))}
                 </nav>
+                <div className="mt-auto pt-8 border-t border-border">
+                  <Link
+                    to={isAuthenticated ? '/account' : '/auth'}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-secondary transition-colors"
+                  >
+                    <User className="h-5 w-5" />
+                    <span>{isAuthenticated ? 'My Account' : 'Sign In / Register'}</span>
+                  </Link>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <span className="font-serif text-xl lg:text-2xl font-bold text-primary tracking-tight">
-              Taj & Thread
+            <span className="font-serif text-xl lg:text-2xl font-bold text-foreground tracking-tight">
+              Stitch & Stone
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
                 className={cn(
                   'text-sm font-medium transition-colors underline-animate py-1',
-                  location.pathname === link.href || 
-                  (link.href !== '/shop' && location.pathname.includes(link.href))
-                    ? 'text-primary'
+                  location.pathname === link.href ||
+                  (link.href !== '/shop' && location.pathname.startsWith(link.href))
+                    ? 'text-foreground font-semibold'
                     : 'text-muted-foreground hover:text-foreground'
                 )}
               >
@@ -99,11 +108,11 @@ export const Header: React.FC = () => {
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-2 lg:gap-4">
+          <div className="flex items-center gap-1 lg:gap-2">
             <Button variant="ghost" size="icon" className="hidden md:flex" aria-label="Search">
               <Search className="h-5 w-5" />
             </Button>
-            
+
             <Button variant="ghost" size="icon" className="hidden md:flex" aria-label="Wishlist">
               <Heart className="h-5 w-5" />
             </Button>
@@ -123,7 +132,7 @@ export const Header: React.FC = () => {
             >
               <ShoppingBag className="h-5 w-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-foreground text-background text-xs font-bold flex items-center justify-center">
                   {itemCount}
                 </span>
               )}
